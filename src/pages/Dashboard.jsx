@@ -48,7 +48,7 @@ export default function Dashboard() {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Paper elevation={3} sx={{ mt: 8, p: 4, borderRadius: 3 }}>
         <Stack spacing={2}>
           {/* Título */}
