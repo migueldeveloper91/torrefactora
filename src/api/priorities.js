@@ -36,3 +36,8 @@ export async function fetchPriorities() {
   // Devolver el cuerpo de la respuesta como JSON
   return res.json();
 }
+
+export async function getPriorityNameById(id) {
+  const all = await fetchPriorities();
+  return all.find((p) => p.id === id)?.name || "";
+}

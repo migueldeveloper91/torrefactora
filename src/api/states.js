@@ -36,3 +36,8 @@ export async function fetchStates() {
   // Retornar la respuesta como JSON
   return res.json();
 }
+
+export async function getStateNameById(id) {
+  const all = await fetchStates();
+  return all.find((s) => s.id === id)?.name || "";
+}

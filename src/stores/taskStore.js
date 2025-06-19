@@ -4,22 +4,14 @@
  */
 
 import { create } from "zustand";
+import { getPriorityNameById } from "../api/priorities";
+import { getStateNameById } from "../api/states";
 import {
   createTask,
   deleteTask,
   fetchAllTasks,
   updateTask,
 } from "../api/tasks";
-
-/**
- * @typedef {Object} Task
- * @property {string} id - ID único de la tarea
- * @property {string} name - Nombre de la tarea
- * @property {string} description - Descripción de la tarea
- * @property {number} duration - Duración en minutos
- * @property {string} priority_id - ID de prioridad
- * @property {string} state_id - ID de estado
- */
 
 /**
  * Zustand store para tareas
@@ -76,13 +68,25 @@ export const useTaskStore = create((set, get) => ({
    * @param {Object} taskData - Datos nuevos
    * @returns {Promise<Task>}
    */
-  updateTask: async (id, taskData) => {
+  updateTask: async (id, data) => {
     try {
-      const updatedTask = await updateTask(id, taskData);
+      const updated = await updateTask(id, data);
+
+      // Obtener nombres actualizados
+      const priority = await getPriorityNameById(updated.priority_id);
+      const state = await getStateNameById(updated.state_id);
+
+      const updatedWithNames = {
+        ...updated,
+        priority,
+        state,
+      };
+
       set({
-        tasks: get().tasks.map((t) => (t.id === id ? updatedTask : t)),
+        tasks: get().tasks.map((t) => (t.id === id ? updatedWithNames : t)),
       });
-      return updatedTask;
+
+      return updatedWithNames;
     } catch (err) {
       console.error("Error al actualizar tarea:", err.message);
       throw err;

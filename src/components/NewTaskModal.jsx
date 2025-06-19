@@ -95,7 +95,7 @@ export default function NewTaskModal({
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
         <DialogTitle>
           {isEditing ? "Editar Tarea" : "Nueva Tarea"}
           <IconButton
